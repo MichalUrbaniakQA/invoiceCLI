@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>Invoice</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div id="container_top">
+        <section id="top_details">
+          <section>
+              <div class="column1">
+                  <div>
+                      <div class="invoice_title"></div>
+                  </div>
+                  <div>
+                      <div class="seller_header">Sprzedawca</div>
+                      <div class="seller_name">Michał Urbaniak</div>
+                      <div class="seller_nip">NIP: 6182035874</div>
+                      <div class="seller_street">Fabryczna 14/27</div>
+                      <div class="seller_city">61-524 Poznań</div>
+                  </div>
+              </div>
+              <div class="column2">
+                  <div>
+                      <div class="place_of_issue">Miejsce wystawienia</div>
+                      <div class="place_of_issue_city">Poznań</div>
+                      <div class="date_of_issue">Data wystawienia</div>
+                      <div class="date_of_issue_details">31-05-2020</div>
+                      <div class="sell_date">Data sprzedaży</div>
+                      <div class="sell_date_details">31-05-2020</div>
+                  </div>
+                  <div>
+                      <div class="buyer_header">Nabywca</div>
+                      <div class="buyer_name">NBC Sp. z o.o.</div>
+                      <div class="buyer_nip">NIP: 8971735406</div>
+                      <div class="buyer_street">Grabiszyńska 251A</div>
+                      <div class="buyer_city">53-234 Wrocław</div>
+                  </div>
+              </div>
+        </section>
+    </div>
+    <div id="container_main_details">
+        <section id="main_details">
+            <div class="services">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Nazwa towaru lub usługi</th>
+                            <th>Jm.</th>
+                            <th>Ilość</th>
+                            <th>Cena netto</th>
+                            <th>Wartość netto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="radius">1</td>
+                            <td>Usługi IT w miesiącu kwietniu 2020 według umowy z dnia 24.03.2020</td>
+                            <td>godz</td>
+                            <td>160</td>
+                            <td>85,00</td>
+                            <td>13 600,00</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="last">VAT</td>
+                            <td class="last">23%</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="last">Kwota VAT</td>
+                            <td class="last">3 128,00</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="last">Razem</td>
+                            <td class="last">16 728,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div id="container_bottom">
+        <section id="bottom_details">
+            <div class="column3">
+                <div class="payment">Sposób płatności:</div>
+                <div class="account">Numer konta:</div>
+                <div class="total_price_digital">Do zapłaty:</div>
+                <div class="total_price_word">Kwota słownie:</div>
+            </div>
+            <div class="column4">
+                <div class="payment_details">przelew</div>
+                <div class="account_details">32 1140 2004 0000 3002 7895 0932</div>
+                <div class="total_price_digital_details">16 728,00 PLN</div>
+                <div class="total_price_word_details">szesnaście tysięcy siedemset dwadzieścia osiem 00/100 PLN</div>
+            </div>
+
+        </section>
+    </div>
+    <div id="signature">
+        <div>
+            <p>Przyjął:</p>
+        </div>
+        <div>
+            <p>Odebrał:</p>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+html, body{
+    height: 297mm;
+    width: 210mm;
+}
+
+body {
+  /* background: rgb(69,76,84); */
+  background: white;
+  border-style: solid;
+  border: 30px solid lightgray;
+  padding: 0px;
+  margin: 0px;
+}
+
+.table td, .table th, .table thead th {
+  padding: 5px;
+  border: 0;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td tr {
+  text-align: center;
+}
+
+th {
+  text-align: center;
+}
+
+#container_top {
+  height: 30%;
+}
+
+#top_details {
+  padding-top: 25px;
+  text-align: center;
+}
+
+#main_details, #bottom_details {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.left_side, .right_side {
+	height: 100vh;
+	width: 100%;
+}
+
+.column1, .column2 {
+  display: inline-block;
+  text-align: center;
+}
+
+.column1 {
+  padding-right: 100px;
+  height: 100%;
+}
+
+.column2 {
+  padding-left: 100px;
+}
+
+.column2 div:first-child, .column1 div:first-child{
+  padding-top: 5px;
+}
+
+.column3, .column4  {
+  display: inline-block;
+}
+
+.column4 {
+  padding-left: 5px;
+}
+
+#signature {
+  text-align: center;
+}
+#signature div:first-child, #signature div:last-child {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-top: 300px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.invoice_title, .seller_header, .buyer_header, .place_of_issue, .date_of_issue, .sell_date {
+  font-weight: bold;
+}
