@@ -10,16 +10,21 @@ from file_reader.details import Details
 from file_reader.header import Header
 from file_reader.seller import Seller
 
+cur_month = str(datetime.now().month)
+cur_year = str(datetime.now().year)
+
 
 def __working_hours(month, year):
-    if year == 2020:
-        calendar_working_hour_2020y = {5: '160', 6: '168', 7: '184', 8: '160', 9: '176', 10: '176', 11: '160',
-                                       12: '168'}
+    if year == '2020':
+        calendar_working_hour_2020y = {'5': '160', '6': '168', '7': '184', '8': '160', '9': '176', '10': '176',
+                                       '11': '160',
+                                       '12': '168'}
         return calendar_working_hour_2020y[month]
 
-    if year == 2021:
-        calendar_working_hour_2021y = {1: '152', 2: '160', 3: '184', 4: '168', 5: '152', 6: '168', 7: '176', 8: '176',
-                                       9: '176', 10: '168', 11: '160', 12: '176'}
+    if year == '2021':
+        calendar_working_hour_2021y = {'1': '152', '2': '160', '3': '184', '4': '168', '5': '152', '6': '168',
+                                       '7': '176', '8': '176',
+                                       '9': '176', '10': '168', '11': '160', '12': '176'}
         return calendar_working_hour_2021y[month]
 
 
@@ -35,13 +40,13 @@ def create_invoice():
         output_invoice_path = __enter_working_path()
         print('Default path: ' + output_invoice_path)
     if not number_hours_worked:
-        number_hours_worked = __working_hours(datetime.now().month, datetime.now().year)
+        number_hours_worked = __working_hours(cur_month, cur_year)
         print('Hours worked from http://kalendarz.livecity.pl/czas-pracy/2020or2021etc: ' + number_hours_worked)
 
-    details = Details('util/data/details.txt', number_hours_worked)
+    details = Details('util/data/details.txt', number_hours_worked, cur_month, cur_year)
     seller = Seller('util/data/seller.txt')
     buyer = Buyer('util/data/buyer.txt')
-    header = Header('util/data/header.txt')
+    header = Header('util/data/header.txt', cur_month, cur_year)
 
     header_dict = header.read_file_header()
     seller_dict = seller.read_file_seller()

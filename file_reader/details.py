@@ -7,9 +7,11 @@ from translate import Translator
 
 
 class Details:
-    def __init__(self, path_details, number_hours_worked):
+    def __init__(self, path_details, number_hours_worked, cur_month, cur_year):
         self.path = path_details
         self.number_hours_worked = number_hours_worked
+        self.cur_month = cur_month
+        self.cur_year = cur_year
 
     def read_file_header(self):
         details = {}
@@ -20,9 +22,8 @@ class Details:
 
                 if val[1].__contains__("{month}"):
                     locale.setlocale(locale.LC_ALL, '')
-                    current_month = datetime.today().strftime("%B")
-                    current_year = datetime.today().strftime("%Y")
-                    current_data = current_month + " " + current_year
+                    current_month_word = datetime.today().strftime("%B")
+                    current_data = current_month_word + " " + self.cur_year
 
                     val[1] = re.sub(r"[{}]", "", val[1]).replace("month", current_data)
 
@@ -55,22 +56,18 @@ class Details:
         details['vat_percent'] = str(details['vat_percent']) + '%'
 
     def __invoice_title_create(self):
-        invoice_number = {
-            '5': '2',
-            '6': '3',
-            '7': '4',
-            '8': '5',
-            '9': '6',
-            '10': '7',
-            '11': '8',
-            '12': '9',
-        }
+        invoice_number_2020y = {'5': '2', '6': '3', '7': '4', '8': '5', '9': '6', '10': '7', '11': '8', '12': '9'}
+        invoice_number_2021y = {'1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8',
+                                '9': '9', '10': '10', '11': '11', '12': '12'}
 
-        invoice_title = \
-            invoice_number[str(datetime.now().month)] + \
-            '/' + str(datetime.now().month) + \
-            '/' + str(datetime.now().year)
+        inv_number = ''
 
+        if self.cur_year == '2020':
+            inv_number = invoice_number_2020y[self.cur_month]
+        if self.cur_year == '2021':
+            inv_number = invoice_number_2021y[self.cur_month]
+
+        invoice_title = inv_number + '/' + self.cur_month + '/' + self.cur_year
         return invoice_title
 
     def __gross_price_to_polish(self, details):
