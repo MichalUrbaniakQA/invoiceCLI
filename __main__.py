@@ -1,12 +1,9 @@
 import codecs
-import msvcrt
 import os
-import time
 from datetime import datetime
 
 import fire
 import pdfkit
-from distlib.compat import raw_input
 
 from file_reader.buyer import Buyer
 from file_reader.details import Details
@@ -14,55 +11,32 @@ from file_reader.header import Header
 from file_reader.seller import Seller
 
 
-def __working_hours(month):
-    # http://kalendarz.livecity.pl/czas-pracy/2020
-    calendar_working_hour_2020y = {
-        5: '160',
-        6: '168',
-        7: '184',
-        8: '160',
-        9: '176',
-        10: '176',
-        11: '160',
-        12: '168'
-    }
+def __working_hours(month, year):
+    if year == 2020:
+        calendar_working_hour_2020y = {5: '160', 6: '168', 7: '184', 8: '160', 9: '176', 10: '176', 11: '160',
+                                       12: '168'}
+        return calendar_working_hour_2020y[month]
 
-    return calendar_working_hour_2020y[month]
+    if year == 2021:
+        calendar_working_hour_2021y = {1: '152', 2: '160', 3: '184', 4: '168', 5: '152', 6: '168', 7: '176', 8: '176',
+                                       9: '176', 10: '168', 11: '160', 12: '176'}
+        return calendar_working_hour_2021y[month]
 
 
 def __enter_working_path():
-    import msvcrt
-    time.sleep(3)
-    char = msvcrt.getch()
-    print(char)
-    if char.getch():
-        print("Key  Pressed")
-        input("EKey  Pressed")
-    else:
-        print("Key not Pressed")
-        input("Key not Pressed")
-
-    desktop_path = os.path.expanduser("~/Desktop")
-    try:
-        for i in range(0, 10):
-            time.sleep(1)
-            print(i)
-            number_hours_worked = input("Enter the number of hours worked:")
-            return number_hours_worked
-        print('No data, set ' + desktop_path)
-    except KeyboardInterrupt:
-        return desktop_path
+    return os.path.expanduser("~/Desktop")
 
 
 def create_invoice():
-    output_invoice_path = __enter_working_path()
-    number_hours_worked = input("Enter the number of hours worked:")
+    output_invoice_path = input("Enter invoice output path (press enter if default):")
+    number_hours_worked = input("Enter the number of hours worked (press enter if default):")
 
-    # if not output_invoice_path:
-    #     output_invoice_path = __enter_working_path()
-    # if not number_hours_worked:
-    #     number_hours_worked = __working_hours(datetime.now().month)
-
+    if not output_invoice_path:
+        output_invoice_path = __enter_working_path()
+        print('Default path: ' + output_invoice_path)
+    if not number_hours_worked:
+        number_hours_worked = __working_hours(datetime.now().month, datetime.now().year)
+        print('Hours worked from http://kalendarz.livecity.pl/czas-pracy/2020or2021etc: ' + number_hours_worked)
 
     details = Details('util/data/details.txt', number_hours_worked)
     seller = Seller('util/data/seller.txt')
