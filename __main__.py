@@ -1,8 +1,12 @@
 import codecs
+import msvcrt
 import os
+import time
+from datetime import datetime
 
 import fire
 import pdfkit
+from distlib.compat import raw_input
 
 from file_reader.buyer import Buyer
 from file_reader.details import Details
@@ -10,8 +14,57 @@ from file_reader.header import Header
 from file_reader.seller import Seller
 
 
+def __working_hours(month):
+    # http://kalendarz.livecity.pl/czas-pracy/2020
+    calendar_working_hour_2020y = {
+        5: '160',
+        6: '168',
+        7: '184',
+        8: '160',
+        9: '176',
+        10: '176',
+        11: '160',
+        12: '168'
+    }
+
+    return calendar_working_hour_2020y[month]
+
+
+def __enter_working_path():
+    import msvcrt
+    time.sleep(3)
+    char = msvcrt.getch()
+    print(char)
+    if char.getch():
+        print("Key  Pressed")
+        input("EKey  Pressed")
+    else:
+        print("Key not Pressed")
+        input("Key not Pressed")
+
+    desktop_path = os.path.expanduser("~/Desktop")
+    try:
+        for i in range(0, 10):
+            time.sleep(1)
+            print(i)
+            number_hours_worked = input("Enter the number of hours worked:")
+            return number_hours_worked
+        print('No data, set ' + desktop_path)
+    except KeyboardInterrupt:
+        return desktop_path
+
+
 def create_invoice():
-    details = Details('util/data/details.txt')
+    output_invoice_path = __enter_working_path()
+    number_hours_worked = input("Enter the number of hours worked:")
+
+    # if not output_invoice_path:
+    #     output_invoice_path = __enter_working_path()
+    # if not number_hours_worked:
+    #     number_hours_worked = __working_hours(datetime.now().month)
+
+
+    details = Details('util/data/details.txt', number_hours_worked)
     seller = Seller('util/data/seller.txt')
     buyer = Buyer('util/data/buyer.txt')
     header = Header('util/data/header.txt')
@@ -84,7 +137,7 @@ def create_invoice():
                                 <td>""" + details_dict['lp'] + """</td>
                                 <td>""" + details_dict['title'] + """</td>
                                 <td>""" + details_dict['jm'] + """</td>
-                                <td>""" + '160' + """</td>
+                                <td>""" + number_hours_worked + """</td>
                                 <td>""" + details_dict['net_per_hour'] + """</td>
                                 <td>""" + details_dict['net_all_price'] + """</td>
                             </tr>
@@ -109,7 +162,7 @@ def create_invoice():
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="last">Razem</td>
+                                <td class="last">Razem brutto</td>
                                 <td class="last">""" + details_dict['gross_all_price'] + """</td>
                             </tr>
                         </tbody>
@@ -155,11 +208,8 @@ def create_invoice():
     file.write(html_template)
     file.close()
 
-    pdfkit.from_file('invoice_template.html', 'invoice.pdf')
+    pdfkit.from_file('invoice_template.html', output_invoice_path + '/invoice.pdf')
 
 
 if __name__ == '__main__':
     fire.Fire(create_invoice())
-
-    # var = input("Please enter something: ")
-    # print("You entered: " + var)

@@ -7,8 +7,9 @@ from translate import Translator
 
 
 class Details:
-    def __init__(self, path_details):
+    def __init__(self, path_details, number_hours_worked):
         self.path = path_details
+        self.number_hours_worked = number_hours_worked
 
     def read_file_header(self):
         details = {}
@@ -28,8 +29,7 @@ class Details:
                 details[str(key[0])] = val[1]
 
             file.close()
-            # print(details['title'])
-            self.__float_to_int(details)
+            self.__float_to_int(details, self.number_hours_worked)
             details['total_price_word'] = self.__gross_price_to_polish(details)
 
             self.__final_prices(details)
@@ -37,8 +37,8 @@ class Details:
 
         return details
 
-    def __float_to_int(self, details):
-        net_all_price = int(details['net_per_hour']) * 160
+    def __float_to_int(self, details, number_hours_worked):
+        net_all_price = int(details['net_per_hour']) * int(number_hours_worked)
         details['net_all_price'] = net_all_price
 
         vat_price = int(int(details['net_all_price'] * int(details['vat_percent'])) / 100)
