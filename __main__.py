@@ -31,34 +31,37 @@ def __create_template_and_save_as_html(invoice_template_html, html_template, enc
 def __set_output_invoice_path():
     path = input("Enter invoice output path (press enter if default):")
     if not path:
-        output_invoice_path = os.path.expanduser("~/Desktop")
-        return output_invoice_path
+        return os.path.expanduser("~/Desktop")
     return path
+
+
+def __set_number_hours_worked(hours_worked_dict):
+    number_hours = input("Enter the number of hours worked (press enter if default):")
+    if not number_hours:
+        return hours_worked_dict[cur_month]
+    return number_hours
 
 
 def create_invoice():
     invoice_template_html = 'invoice_template.html'
     invoice_pdf_name = 'invoice.pdf'
     encoding = 'utf-8'
+    util_data_path = 'util/data/'
 
-    seller = Seller('util/data/seller.txt')
+    seller = Seller(util_data_path + 'seller.txt')
     seller_dict = seller.read_file_seller()
-    buyer = Buyer('util/data/buyer.txt')
+    buyer = Buyer(util_data_path + 'buyer.txt')
     buyer_dict = buyer.read_file_buyer()
-    header = Header('util/data/header.txt', cur_month, cur_year)
+    header = Header(util_data_path + 'header.txt', cur_month, cur_year)
     header_dict = header.read_file_header()
 
     hours_worked = HoursWorked('util/hours_worked/hours_worked_2020.txt')
     hours_worked_dict = hours_worked.read_file_hours_worked()
 
     output_invoice_path = __set_output_invoice_path()
-    number_hours_worked = input("Enter the number of hours worked (press enter if default):")
+    number_hours_worked = __set_number_hours_worked(hours_worked_dict)
 
-    if not number_hours_worked:
-        number_hours_worked = hours_worked_dict[cur_month]
-        print('Hours worked from http://kalendarz.livecity.pl/czas-pracy/2020or2021etc: ' + number_hours_worked)
-
-    details = Details('util/data/details.txt', number_hours_worked, cur_month, cur_year)
+    details = Details(util_data_path + 'details.txt', number_hours_worked, cur_month, cur_year)
     details_dict = details.read_file_header()
 
     html_template = """
@@ -188,7 +191,6 @@ def create_invoice():
 
     __remove_invoice_if_exist(invoice_template_html, invoice_pdf_name)
     __create_template_and_save_as_html(invoice_template_html, html_template, encoding)
-    print(output_invoice_path + '/' + invoice_pdf_name)
     pdfkit.from_file(invoice_template_html, output_invoice_path + '/' + invoice_pdf_name)
 
 
