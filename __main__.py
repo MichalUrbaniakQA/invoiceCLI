@@ -2,7 +2,6 @@ import codecs
 import os
 from datetime import datetime
 
-import fire
 import pdfkit
 
 from file_reader.buyer import BuyerInvoice
@@ -195,4 +194,4 @@ def create_invoice():
 
 
 if __name__ == '__main__':
-    fire.Fire(create_invoice())
+    create_invoice()
