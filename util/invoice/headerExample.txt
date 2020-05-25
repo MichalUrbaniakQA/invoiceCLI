@@ -1,0 +1,3 @@
+city:
+create_date:
+sell_date:

@@ -1,0 +1,8 @@
+lp:
+jm:
+net_per_hour:
+vat_percent:
+payment:
+account:
+invoice_title:
+title:

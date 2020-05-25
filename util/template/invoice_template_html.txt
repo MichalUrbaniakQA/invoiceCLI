@@ -1,73 +1,11 @@
-import codecs
-import os
-from datetime import datetime
 
-import fire
-import pdfkit
-
-from file_reader.buyer import Buyer
-from file_reader.details import Details
-from file_reader.header import Header
-from file_reader.hours_worked import HoursWorked
-from file_reader.seller import Seller
-
-cur_month = str(datetime.now().month)
-cur_year = str(datetime.now().year)
-
-
-def __remove_invoice_if_exist(invoice_template_html, invoice_pdf_name):
-    if os.path.exists(invoice_template_html):
-        os.remove(invoice_template_html)
-    if os.path.exists(invoice_pdf_name):
-        os.remove(invoice_pdf_name)
-
-
-def __create_template_and_save_as_html(invoice_template_html, html_template, encoding):
-    file = codecs.open(invoice_template_html, "w", encoding)
-    file.write(html_template)
-    file.close()
-
-
-def __enter_working_path():
-    return os.path.expanduser("~/Desktop")
-
-
-def create_invoice():
-    invoice_template_html = 'invoice_template.html'
-    invoice_pdf_name = 'invoice.pdf'
-    encoding = 'utf-8'
-
-    hours_worked = HoursWorked('D:/Workspace/invoiceCLI/util/hours_worked/hours_worked_2020.txt')
-    hours_worked_dict = hours_worked.read_file_hours_worked()
-
-    output_invoice_path = input("Enter invoice output path (press enter if default):")
-    number_hours_worked = input("Enter the number of hours worked (press enter if default):")
-
-    if not output_invoice_path:
-        output_invoice_path = __enter_working_path()
-        print('Default path: ' + output_invoice_path)
-    if not number_hours_worked:
-        number_hours_worked = hours_worked_dict[cur_month]
-        print('Hours worked from http://kalendarz.livecity.pl/czas-pracy/2020or2021etc: ' + number_hours_worked)
-
-    details = Details('util/data/details.txt', number_hours_worked, cur_month, cur_year)
-    seller = Seller('util/data/seller.txt')
-    buyer = Buyer('util/data/buyer.txt')
-    header = Header('util/data/header.txt', cur_month, cur_year)
-
-    header_dict = header.read_file_header()
-    seller_dict = seller.read_file_seller()
-    buyer_dict = buyer.read_file_buyer()
-    details_dict = details.read_file_header()
-
-    html_template = """
     <!DOCTYPE html>
     <html lang="en">
       <head>
           <meta charset="utf-8">
           <title>Invoice</title>
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-          <link rel="stylesheet" href="util/template/style.css"/>
+          <link rel="stylesheet" href="util/css_template/style.css"/>
       </head>
       <body>
         <div id="container_top">
@@ -183,14 +121,4 @@ def create_invoice():
       </body>
     </html>
 
-        """
-
-    __remove_invoice_if_exist(invoice_template_html, invoice_pdf_name)
-
-    __create_template_and_save_as_html(invoice_template_html, html_template, encoding)
-
-    pdfkit.from_file(invoice_template_html, output_invoice_path + '/' + invoice_pdf_name)
-
-
-if __name__ == '__main__':
-    fire.Fire(create_invoice())
+        
