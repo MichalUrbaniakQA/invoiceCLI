@@ -5,11 +5,11 @@ from datetime import datetime
 import fire
 import pdfkit
 
-from file_reader.buyer import Buyer
-from file_reader.details import Details
-from file_reader.header import Header
-from file_reader.hours_worked import HoursWorked
-from file_reader.seller import Seller
+from file_reader.buyer import BuyerInvoice
+from file_reader.details import DetailsInvoice
+from file_reader.header import HeaderInvoice
+from file_reader.hours_worked import HoursWorkedInvoice
+from file_reader.seller import SellerInvoice
 
 cur_month = str(datetime.now().month)
 cur_year = str(datetime.now().year)
@@ -48,20 +48,20 @@ def create_invoice():
     encoding = 'utf-8'
     util_data_path = 'util/data/'
 
-    seller = Seller(util_data_path + 'seller.txt')
+    seller = SellerInvoice(util_data_path + 'seller.txt')
     seller_dict = seller.read_file_seller()
-    buyer = Buyer(util_data_path + 'buyer.txt')
+    buyer = BuyerInvoice(util_data_path + 'buyer.txt')
     buyer_dict = buyer.read_file_buyer()
-    header = Header(util_data_path + 'header.txt', cur_month, cur_year)
+    header = HeaderInvoice(util_data_path + 'header.txt', cur_month, cur_year)
     header_dict = header.read_file_header()
 
-    hours_worked = HoursWorked('util/hours_worked/hours_worked_2020.txt')
+    hours_worked = HoursWorkedInvoice('util/hours_worked/hours_worked_2020.txt')
     hours_worked_dict = hours_worked.read_file_hours_worked()
 
     output_invoice_path = __set_output_invoice_path()
     number_hours_worked = __set_number_hours_worked(hours_worked_dict)
 
-    details = Details(util_data_path + 'details.txt', number_hours_worked, cur_month, cur_year)
+    details = DetailsInvoice(util_data_path + 'details.txt', number_hours_worked, cur_month, cur_year)
     details_dict = details.read_file_header()
 
     html_template = """

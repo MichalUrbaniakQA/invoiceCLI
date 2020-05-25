@@ -1,4 +1,4 @@
-class HoursWorked:
+class HoursWorkedInvoice:
     def __init__(self, path_hours_worked):
         self.path = path_hours_worked
 

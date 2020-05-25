@@ -2,7 +2,7 @@ import calendar
 import time
 
 
-class Header:
+class HeaderInvoice:
     def __init__(self, path_header, cur_month, cur_year):
         self.path = path_header
         self.cur_month = cur_month

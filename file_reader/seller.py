@@ -1,4 +1,4 @@
-class Seller:
+class SellerInvoice:
     def __init__(self, path_seller):
         self.path = path_seller
 

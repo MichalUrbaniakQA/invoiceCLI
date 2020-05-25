@@ -6,7 +6,7 @@ import inflect
 from translate import Translator
 
 
-class Details:
+class DetailsInvoice:
     def __init__(self, path_details, number_hours_worked, cur_month, cur_year):
         self.path = path_details
         self.number_hours_worked = number_hours_worked
