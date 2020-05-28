@@ -1,5 +1,6 @@
 import calendar
 import time
+from datetime import datetime, timedelta
 
 
 class HeaderInvoice:
@@ -19,7 +20,13 @@ class HeaderInvoice:
                     last_day_of_month = calendar.monthrange(int(self.cur_year), int(self.cur_month))[1]
                     val[1] = str(time.strftime("%Y-%m")) + "-" + str(last_day_of_month)
 
-                header[str(key[0])] = val[1]
+                    date_object = datetime.strptime(val[1], '%Y-%m-%d').date()
+                    if date_object.isoweekday() == 6:
+                        val[1] = date_object - timedelta(1)
+                    if date_object.isoweekday() == 7:
+                        val[1] = date_object - timedelta(2)
+
+                header[str(key[0])] = str(val[1])
 
         file.close()
         return header
